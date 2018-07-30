@@ -64,23 +64,23 @@
       var label = document.createElement("label");//adds a label so the input words show up.
       var details = document.createElement("p")//details are stored in a paragraph
       var editInput = document.createElement("input")//adds another input in the li element for editing
-      var editDetails = document.createElement("button");//adds an edit button
-      var completeTask = document.createElement("button");//adds complete task button
+      var editDetailsButton = document.createElement("button");//adds an edit button
+      var completeButton = document.createElement("button");//adds complete task button
 
       label.innerText = taskString;//Sets the label to the taskString, which is the input value
       editInput.type = "text";//sets the type of the edit input to text
 
-      editDetails.innerText="Edit Details";//Sets what the button says on it
-      editDetails.className="editInput";//sets the class of the button to editInput
-      completeTask.innerText="Complete";//Sets what the button says on it
-      completeTask.className="completeTask";//sets the class of the button to completeTask
+      editDetailsButton.innerText="Edit Details";//Sets what the button says on it
+      editDetailsButton.className="editInput";//sets the class of the button to editInput
+      completeButton.innerText="Complete";//Sets what the button says on it
+      completeButton.className="completeButton";//sets the class of the button to completeTask
 
       //adds the elements to the list with the values
       listitem.append(label);
       listitem.append(details);
       listitem.append(editInput);
-      listitem.append(editDetails);
-      listitem.append(completeTask);
+      listitem.append(editDetailsButon);
+      listitem.append(completeButton);
       return listitem;
     }
   </script>
