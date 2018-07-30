@@ -62,6 +62,7 @@
     var newTaskElement = function(taskString) {//The input is translated to taskString
       var listItem = document.createElement("li");//adds a section of the list to the HTML
       var label = document.createElement("label");//adds a label so the input words show up.
+      var details = document.createElement("p")//details are stored in a paragraph
       var editInput = document.createElement("input")//adds another input in the li element for editing
       var editDetails = document.createElement("button");//adds an edit button
       var completeTask = document.createElement("button");//adds complete task button
@@ -74,13 +75,13 @@
       completeTask.innerText="Complete";//Sets what the button says on it
       completeTask.className="completeTask";//sets the class of the button to completeTask
 
+      //adds the elements to the list with the values
       listitem.append(label);
-      listitem.append(editDetails);
+      listitem.append(details);
       listitem.append(editInput);
+      listitem.append(editDetails);
       listitem.append(completeTask);
       return listitem;
-      
-
     }
   </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
