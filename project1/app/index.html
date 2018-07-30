@@ -69,11 +69,17 @@
       label.innerText = taskString;//Sets the label to the taskString, which is the input value
       editInput.type = "text";//sets the type of the edit input to text
 
-      editInput.innerText="Edit Details";//Sets what the button says on it
-      editInput.className="editInput";//sets the class of the button to editInput
+      editDetails.innerText="Edit Details";//Sets what the button says on it
+      editDetails.className="editInput";//sets the class of the button to editInput
       completeTask.innerText="Complete";//Sets what the button says on it
       completeTask.className="completeTask";//sets the class of the button to completeTask
 
+      listitem.append(label);
+      listitem.append(editDetails);
+      listitem.append(editInput);
+      listitem.append(completeTask);
+      return listitem;
+      
 
     }
   </script>
