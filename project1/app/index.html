@@ -4,6 +4,11 @@
   <style>
     .input {
       border-radius: 4px;
+      padding-left: 2px;
+    }
+
+    #taskDetails {
+      height: 120px;
     }
 
     button {
@@ -71,15 +76,15 @@
       editInput.type = "text";//sets the type of the edit input to text
 
       editDetailsButton.innerText="Edit Details";//Sets what the button says on it
-      editDetailsButton.className="editInput";//sets the class of the button to editInput
+      editDetailsButton.className="editDetailsButton";//sets the class of the button to editInput
       completeButton.innerText="Complete";//Sets what the button says on it
-      completeButton.className="completeButton";//sets the class of the button to completeTask
+      completeButton.className="completeButton";//sets the class of the button to completeButtom
 
       //adds the elements to the list with the values
       listitem.append(label);
       listitem.append(details);
       listitem.append(editInput);
-      listitem.append(editDetailsButon);
+      listitem.append(editDetailsButton);
       listitem.append(completeButton);
       return listitem;
     }
