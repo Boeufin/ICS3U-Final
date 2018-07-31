@@ -90,15 +90,14 @@ var taskCompleted=function(){
     
   var listItem=this.parentNode;
   completedTasksHolder.appendChild(listItem);
-  bindTaskEvents(listItem, taskIncomplete);
+  bindTaskEvents(listItem);
 }
 
 addButton.onclick=addTask;
 addButton.addEventListener("click",addTask);
 
-var bindTaskEvents=function(taskListItem,checkBoxEventHandler){
+var bindTaskEvents=function(taskListItem){
   
-  var checkBox=taskListItem.querySelector("input[type=checkbox]");
   var editButton=taskListItem.querySelector("button.edit");
   var completeButton=taskListItem.querySelector("button.complete");
 
