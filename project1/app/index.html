@@ -10,10 +10,7 @@
           font-size: 14px;
 
         }
-        #newDetails {
-          height: 100px;
-        }
-
+        
         #create {
           position: relative;
           top: -85px;
@@ -32,13 +29,10 @@
           top: -50px;
       }
 
-      .hide {
-        display: none;
-    }
-
-      .show {
-        display: block;
-      }
+      .newDetails {
+          height: 100px;
+          width: 170px;
+        }
 
       button {
         background-color: #ddd;
@@ -62,10 +56,19 @@
         width: 600px;
       }
 
+      textarea {
+        resize: none;
+          border-radius: 4px;
+          padding-left: 2px;
+          width: 200px;
+          font-family: "Trebuchet MS", Helvetica, sans-serif;
+          font-size: 14px;
+          height: 100px;
+      }
+
       body {
         font-family: "Trebuchet MS", Helvetica, sans-serif;
       }
-
     </style>
   </head>
   <body>
@@ -74,7 +77,7 @@
         <p>
           <h3 for="new-task">Add a Task</h3>
           <input id="new-task" class="input" type="text" placeholder="Enter Task"><br><br>
-          <textarea class="input" id="newDetails" placeholder="Details"></textarea><br>
+          <textarea class="newDetails" id="newDetails" placeholder="Details"></textarea><br>
           <button id="create">Create</button>
         </p>
         <hr id="breaker"/>
@@ -84,6 +87,7 @@
       </div>
   </center>
     <script>
+//Getting the elements and setting them as global variables.
 var taskTitle=document.getElementById("new-task");
 var taskDetails=document.getElementById("newDetails");
 var addButton=document.getElementsByTagName("button")[0];
@@ -161,7 +165,8 @@ var editTask = function() {
   var listItem = this.parentNode;//Targets the part of the list that the button was clicked by.
   var editInput = listItem.querySelector('textarea');
   var label = listItem.querySelector("label");
-  var detailDesc = listItem.querySelector("editTextArea");
+  var detailDesc = listItem.querySelector("textArea");
+
     if (detailDesc.style.display == "none") {
       detailDesc.style.display = "block";
     } else {
