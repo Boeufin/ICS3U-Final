@@ -1,16 +1,91 @@
 <html>
+  <head>
+    <style>
+        .input {
+          resize: none;
+          border-radius: 4px;
+          padding-left: 2px;
+          width: 170px;
+          font-family: "Trebuchet MS", Helvetica, sans-serif;
+          font-size: 14px;
+
+        }
+        #newDetails {
+          height: 100px;
+        }
+
+        #create {
+          position: relative;
+          top: -85px;
+          left: 180px;
+        }
+
+        #breaker {
+          position: relative;
+        top: -40px;
+        height: 2px;
+        background-color: black;
+      }
+
+      #toDO {
+        position: relative;
+          top: -50px;
+      }
+
+      .hide {
+        display: none;
+    }
+
+      .show {
+        display: block;
+      }
+
+      button {
+        background-color: #ddd;
+        border: none;
+        color: white;
+        height: 40px;
+        width: 80px;
+        text-align: center;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition: 0.3s;
+        border-radius: 10px;
+        }
+
+      button:hover {
+        background-color: blue;
+        color: white;
+      }
+
+      hr {
+        width: 600px;
+      }
+
+      body {
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
+      }
+
+    </style>
+  </head>
   <body>
-    <div class="container">
-      <p>
-        <label for="new-task">Add a Task</label><input id="new-task" type="text"><textarea style="resize: none" id="newDetails"></textarea><button>Add</button>
-      </p>
-      <h3>Todo</h3>
-      <ul id="incomplete-tasks">
-      </ul>
-    </div>
+    <center>
+      <div class="container">
+        <p>
+          <h3 for="new-task">Add a Task</h3>
+          <input id="new-task" class="input" type="text" placeholder="Enter Task"><br><br>
+          <textarea class="input" id="newDetails" placeholder="Details"></textarea><br>
+          <button id="create">Create</button>
+        </p>
+        <hr id="breaker"/>
+        <h3 id="toDo">Tasks To Do</h3>
+        <ul id="incomplete-tasks">
+        </ul>
+      </div>
+  </center>
     <script>
-var taskDetails=document.getElementById("newDetails");
 var taskTitle=document.getElementById("new-task");
+var taskDetails=document.getElementById("newDetails");
 var addButton=document.getElementsByTagName("button")[0];
 var incompletetaskList=document.getElementById("incomplete-tasks");
 
@@ -18,19 +93,35 @@ var incompletetaskList=document.getElementById("incomplete-tasks");
 var createNewTaskElement=function(taskString, detailsInput){
 
 //Creating the HTML elements for the one task.
-  var listItem=document.createElement("li");
-  var label=document.createElement("h3");
-  var lbreak=document.createElement("br");
-  var labeldesc=document.createElement("label");
-  var editTextArea=document.createElement("textarea");
-  var editInput=document.createElement("input");
-  var editButton=document.createElement("button");
-  var completeButton=document.createElement("button");
+  var listItem = document.createElement("li");
+  var label = document.createElement("h3");
+  var lbreak = document.createElement("br");
+  var labeldesc = document.createElement("label");
+  var tbreak = document.createElement("br");
+  var editTextArea = document.createElement("textarea");
+  var editInput = document.createElement("input");
+  var editButton = document.createElement("button");
+  var completeButton = document.createElement("button");
+  var separater = document.createElement("hr");
 
-//
-  label.innerText=taskString;
-  labeldesc.innerText=detailsInput;
-  editTextArea.type="textarea";
+//Adding tags and text and class and CSS to the elements.
+  label.innerText = taskString;
+  labeldesc.innerText = detailsInput;
+  editTextArea.type = "textarea";
+  editTextArea.style.resize = "none";
+
+//Edit Button CSS
+  editButton.style.position = "relative";
+  editButton.style.left = "235px";
+  editButton.style.top = "-50px";
+
+//Complete Button CSS
+  completeButton.style.position = "relative";
+  completeButton.style.left = "150px";
+  completeButton.style.top = "0px";
+
+//Hiding the text area element Initially
+  editTextArea.style.display = "none";
   
 //Adding the button classes and names inside the added task.
   editButton.innerText="Edit";
@@ -42,9 +133,11 @@ var createNewTaskElement=function(taskString, detailsInput){
   listItem.appendChild(label);
   listItem.appendChild(lbreak);
   listItem.appendChild(labeldesc);
+  listItem.appendChild(tbreak);
   listItem.appendChild(editTextArea);
   listItem.appendChild(editButton);
   listItem.appendChild(completeButton);
+  listItem.appendChild(separater);
   return listItem;
 }
 
@@ -52,24 +145,30 @@ var createNewTaskElement=function(taskString, detailsInput){
 var addTask=function(){
 
   var listItem=createNewTaskElement(taskTitle.value, taskDetails.value);
-//Adding the listed items to the incompleteTaskList
+//Adding the listed items to the incompleteTaskList.
   incompletetaskList.appendChild(listItem);
-//Calls
-  bindTaskEvents(listItem, taskCompleted);
+//Calls the BindTaskEvents and passes in the listed Items.
+  bindTaskEvents(listItem);
 
  //Resets the values of the input field.
   taskTitle.value="";
   taskDetails.value="";
 }
 
-var editTask=function(){
+//Edit the existing text area.
+var editTask = function() {
 
-var listItem=this.parentNode;
+  var listItem = this.parentNode;//Targets the part of the list that the button was clicked by.
+  var editInput = listItem.querySelector('textarea');
+  var label = listItem.querySelector("label");
+  var detailDesc = listItem.querySelector("editTextArea");
+    if (detailDesc.style.display == "none") {
+      detailDesc.style.display = "block";
+    } else {
+      detailDesc.style.display = "none";
+    }
 
-var editInput=listItem.querySelector('textarea');
-
-var label=listItem.querySelector("label");
-var containsClass=listItem.classList.contains("editMode");
+  var containsClass=listItem.classList.contains("editMode");
     if(containsClass){
       label.innerText=editInput.value;
     } else {
@@ -79,6 +178,7 @@ var containsClass=listItem.classList.contains("editMode");
   listItem.classList.toggle("editMode");
 }
 
+//Completes the task.
 var CompleteTask=function(){
     
   var listItem=this.parentNode;
@@ -86,25 +186,18 @@ var CompleteTask=function(){
   ul.removeChild(listItem);
 }
 
-var taskCompleted=function(){
-    
-  var listItem=this.parentNode;
-  completedTasksHolder.appendChild(listItem);
-  bindTaskEvents(listItem);
-}
-
 addButton.onclick=addTask;
 addButton.addEventListener("click",addTask);
 
+//Gives functionality to the edit and complete buttons.
 var bindTaskEvents=function(taskListItem){
   
   var editButton=taskListItem.querySelector("button.edit");
   var completeButton=taskListItem.querySelector("button.complete");
 
-    editButton.onclick=editTask;
-    completeButton.onclick=CompleteTask;
+  editButton.onclick=editTask;
+  completeButton.onclick=CompleteTask;
 }
     </script>
   </body>
 </html>
-
