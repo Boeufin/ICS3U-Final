@@ -8,7 +8,8 @@
     }
 
     #taskDetails {
-      height: 120px;
+      height: 75px;
+      resize: none;
     }
 
     button {
@@ -29,10 +30,10 @@
       color: white;
     }
 
-    #submit {
+    #create {
       position: relative;
       left: 175px;
-      top: -55px;
+      top: -100px;
     }
 
     #breaker {
@@ -56,8 +57,9 @@
       <!--Input task title-->
       <input type="text" id="taskTitle" placeholder=" Enter Task" class="input"></input><br><br>
       <!--Input task details-->
-      <input type="text" id="taskDetails" placeholder=" Details" class="input"></input><br>
-      <button class="button" id="submit">Submit</button><!--Submit button, sends the values to the jQuery/JS-->
+      <textarea id="taskDetails" placeholder=" Details" class="input"></textarea><br>
+      <button class="button" id="create">Create</button>
+      <!--Create button, sends the values to the jQuery/JS-->
       <hr id="breaker"/><!--Separates elements-->
       <h2 id="toDo">Tasks To Do</h2>
     </div>
