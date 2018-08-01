@@ -1,4 +1,4 @@
- //Getting the elements and setting them as global variables.
+//Getting the elements and setting them as global variables.
 var taskTitle = document.getElementById("new-task");
 var taskDetails = document.getElementById("newDetails");
 var addButton=document.getElementsByTagName("button")[0];
@@ -20,6 +20,13 @@ function createNewTaskElement(taskString, detailsInput)
   var completeButton = document.createElement("button");
   var separater = document.createElement("hr");
 
+  if (taskString == "") {
+    taskString = "Untitled";
+  }
+
+  if (detailsInput == "") {
+    detailsInput = "No Description";
+  }
   //Adding tags and text and class and CSS to the elements.
   label.innerText = taskString;
   labeldesc.innerText = detailsInput;
@@ -50,9 +57,9 @@ function createNewTaskElement(taskString, detailsInput)
   listItem.appendChild(lbreak);
   listItem.appendChild(labeldesc);
   listItem.appendChild(tbreak);
-  listItem.appendChild(editTextArea);
   listItem.appendChild(editButton);
   listItem.appendChild(completeButton);
+  listItem.appendChild(editTextArea);
   listItem.appendChild(separater);
   return listItem;
 }
@@ -68,7 +75,8 @@ function CompleteTask()
 }
 
 //Gives functionality to the edit and complete buttons.
-function bindTaskEvents(taskListItem){
+function bindTaskEvents(taskListItem)
+{
   
   var editButton=taskListItem.querySelector("button.edit");
   var completeButton=taskListItem.querySelector("button.complete");
@@ -100,6 +108,7 @@ function editTask()
   var editInput = listItem.querySelector('textarea');
   var label = listItem.querySelector("label");
   var detailDesc = listItem.querySelector("textArea");
+  var editTaskButton = listItem.querySelector("button");
   //Hides and displays the text area for edits.
   if (detailDesc.style.display == "none") {
     detailDesc.style.display = "block";
@@ -115,5 +124,16 @@ function editTask()
       editInput.value=label.innerText;
     }
 
+  if (detailDesc.style.display == "none") {
+    editTaskButton.innerHTML = "Edit";
+  } else {
+    editTaskButton.innerHTML = "Save";
+  }
+
   listItem.classList.toggle("editMode");
+}
+
+function clearAll()
+ {
+document.getElementById("incomplete-tasks").innerText = "";
 }
