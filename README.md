@@ -2,10 +2,10 @@
 This is where the final code will be stored for review.
 
 # What The Project Does:
-The Project keeps track of your tasks that you enter. You can edit and complete these tasks.
+The Project keeps track of your tasks that you enter. You can edit and complete these tasks, and clear all.
 
 # How The Project Works:
-The Project works by inputting values into two text fields. Once you click 'Create,' your task, along with it's description will be put in the tasks to do list. You can choose to edit or complete the task. When you click edit, a box appears with the inputted text. Do your edits, and after, reclick the edit button to save it. Once you click the Complete button, the task will disappear from the list.
+The create button runs a series of code that adds HTML elements to the un ordered list. It records your inputs and prints them onto the page. These elements are generated with classes, css, and functions to make the site work. The edit button works by showing the hidden text area, hiding the printed text, and allowing the user to input new details to the task. Once they click save, the text area becomes hidden and the printed text comes into view. The complete button works by removing the entire section of the list from the un ordered list. The clear tasks button works by removing all content from the unordered list.
 
 # How To Compile The Project: (gulp serve)
 To compile the project, clone or dowload the project. Run gulp serve from the terminal, and the web server should start.
