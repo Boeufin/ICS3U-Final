@@ -4,8 +4,8 @@ var taskArr = [];
 //Getting the elements and setting them as global variables.
 var taskTitle = document.getElementById("new-task");
 var taskDetails = document.getElementById("newDetails");
-var addButton=document.getElementsByTagName("button")[0];
-var incompletetaskList=document.getElementById("incomplete-tasks");
+var addButton = document.getElementsByTagName("button")[0];
+var incompletetaskList = document.getElementById("incomplete-tasks");
 
 //Takes the two inputs and translates them to taskString and detailsInput within this function.
 //Needs to push to array.
@@ -37,6 +37,7 @@ function createNewTaskElement(arrData, index)
   //Adding tags and text and CSS to the elements.
   label.innerText = arrData["Name"];
   labeldesc.innerText = arrData["Description"];
+  date.innerText = arrData["Date"];
   editTextArea.type = "textarea";
   editTextArea.style.resize = "none";
   listItem.style.top = "-50px";
@@ -98,6 +99,66 @@ function bindTaskEvents(taskListItem)
   completeButton.onclick = CompleteTask;
 }
 
+//Completes the task.
+function CompleteTask() 
+{  
+  var listItem = this.parentNode;
+  var ul = listItem.parentNode;
+  var tarInd = listItem.querySelector("p");
+
+  ul.removeChild(listItem);
+
+  taskArr.splice([tarInd.value],1);
+
+  floop(); 
+}
+
+//Edit the existing text area.
+function editTask()
+{
+  var listItem = this.parentNode;//Targets the button that was just clicked for the element.
+  var editInput = listItem.querySelector('textarea');
+  var label = listItem.querySelector("label");
+  var detailDesc = listItem.querySelector("textArea");
+  var editTaskButton = listItem.querySelector("button");
+  var iHold = listItem.querySelector("p");
+
+  //Overwrites the edit input (what the new value is) to the thing in the array.
+  //iHold is keeping the value and not changing it until a new button is created.
+  taskArr[iHold.innerText] = {Name: taskArr[iHold.innerText].Name, Description: editInput.value, Date: new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate() + "|" + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds()};
+
+  //Hides and displays the text area for edits.
+  if (detailDesc.style.display == "none") {
+    detailDesc.style.display = "block";
+  } else {
+    detailDesc.style.display = "none";
+  }
+
+  //turns the class to editmode.
+  var containsClass = listItem.classList.contains("editMode");
+
+  if(containsClass) {
+    label.innerText = editInput.value;
+  } else {
+    editInput.value = label.innerText;
+  }
+
+  if (detailDesc.style.display == "block") {
+    label.style.display = "none";
+  } else {
+    label.style.display = "block";
+  }
+
+  //Changes the edit button to a save button.
+  if (detailDesc.style.display == "none") {
+    editTaskButton.innerHTML = "Edit";
+  } else {
+    editTaskButton.innerHTML = "Save";
+  }
+
+  listItem.classList.toggle("editMode");
+}
+
 //addTask function calls the createTask function above.
 function addTask()
 {
@@ -118,67 +179,6 @@ function addTask()
  //Resets the values of the input field.
   taskTitle.value = "";
   taskDetails.value = "";
-}
-
-//Completes the task.
-function CompleteTask() 
-{  
-  var listItem = this.parentNode;
-  var ul = listItem.parentNode;
-  var tarInd = listItem.querySelector("p");
-
-  taskArr.splice([tarInd.value],1);
-
-  floop(); 
-}
-
-//Edit the existing text area.
-function editTask()
-{
-  if(taskArr.length > 0)
-  {
-    var listItem = this.parentNode;//Targets the button that was just clicked for the element.
-    var editInput = listItem.querySelector('textarea');
-    var label = listItem.querySelector("label");
-    var detailDesc = listItem.querySelector("textArea");
-    var editTaskButton = listItem.querySelector("button");
-    var iHold = listItem.querySelector("p");
-
-    //Overwrites the edit input (what the new value is) to the thing in the array.
-    //iHold is keeping the value and not changing it until a new button is created.
-    taskArr[iHold.innerText] = {Name: taskArr[iHold.innerText].Name, Description: editInput.value, Date: new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate() + "|" + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds()};
-
-    //Hides and displays the text area for edits.
-    if (detailDesc.style.display == "none") {
-      detailDesc.style.display = "block";
-    } else {
-      detailDesc.style.display = "none";
-    }
-
-    //turns the class to editmode.
-    var containsClass = listItem.classList.contains("editMode");
-
-    if(containsClass) {
-      label.innerText = editInput.value;
-    } else {
-      editInput.value = label.innerText;
-    }
-
-    if (detailDesc.style.display == "block") {
-      label.style.display = "none";
-    } else {
-      label.style.display = "block";
-    }
-
-    //Changes the edit button to a save button.
-    if (detailDesc.style.display == "none") {
-      editTaskButton.innerHTML = "Edit";
-    } else {
-      editTaskButton.innerHTML = "Save";
-    }
-
-    listItem.classList.toggle("editMode");
-    }
 }
 
 //Sets the task holder to nothing.
