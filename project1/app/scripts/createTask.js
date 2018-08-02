@@ -1,4 +1,4 @@
-//Array
+//Array with all the stored data.
 var taskArr = [];
 
 //Getting the elements and setting them as global variables.
@@ -8,7 +8,6 @@ var addButton = document.getElementsByTagName("button")[0];
 var incompletetaskList = document.getElementById("incomplete-tasks");
 
 //Takes the two inputs and translates them to taskString and detailsInput within this function.
-//Needs to push to array.
 function createNewTaskElement(arrData, index)
 {
   //Creating the HTML elements for the one task.
@@ -124,8 +123,8 @@ function editTask()
   var iHold = listItem.querySelector("p");
 
   //Overwrites the edit input (what the new value is) to the thing in the array.
-  //iHold is keeping the value and not changing it until a new button is created.
-  taskArr[iHold.innerText] = {Name: taskArr[iHold.innerText].Name, Description: editInput.value, Date: new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate() + "|" + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds()};
+  //for some reason, it cannot read the .Name at the end of the Name tag.
+  taskArr[iHold.innerText] = {Description: editInput.value};
 
   //Hides and displays the text area for edits.
   if (detailDesc.style.display == "none") {
@@ -192,7 +191,7 @@ function sortNewOld() {
 }
 var listItem;
 
-function floop() {
+function floop () {
   for( var i = 0; i < taskArr.length; i++) {
     listItem = createNewTaskElement(taskArr[i], i);
   }
