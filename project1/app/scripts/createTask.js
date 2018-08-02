@@ -9,7 +9,7 @@ var incompletetaskList=document.getElementById("incomplete-tasks");
 
 //Takes the two inputs and translates them to taskString and detailsInput within this function.
 //Needs to push to array.
-function createNewTaskElement(taskString, detailsInput)
+function createNewTaskElement(arrData, index)
 {
   //Creating the HTML elements for the one task.
   var listItem = document.createElement("li");
@@ -23,22 +23,26 @@ function createNewTaskElement(taskString, detailsInput)
   var editButton = document.createElement("button");
   var completeButton = document.createElement("button");
   var separater = document.createElement("hr");
+  var iHolder = document.createElement("p");
 
   //If there is no input, this shows up.
-  if (taskString == "") {
-    taskString = "Untitled";
+  if (arrData["Name"] == "") {
+    arrData["Name"] = "Untitled";
   }
 
-  if (detailsInput == "") {
-    detailsInput = "No Description";
+  if (arrData["Description"] == "") {
+    arrData["Description"] = "No Description";
   }
 
   //Adding tags and text and CSS to the elements.
-  label.innerText = taskString;
-  labeldesc.innerText = detailsInput;
+  label.innerText = arrData["Name"];
+  labeldesc.innerText = arrData["Description"];
   editTextArea.type = "textarea";
   editTextArea.style.resize = "none";
   listItem.style.top = "-50px";
+
+  iHolder.style.display = "none";
+  iHolder.innerText = index;
 
   //Position the date
   date.style.position ="relative";
@@ -80,15 +84,11 @@ function createNewTaskElement(taskString, detailsInput)
   listItem.appendChild(labeldesc);
   listItem.appendChild(date);
   listItem.appendChild(separater);
-  return listItem;
-}
+  listItem.appendChild(iHolder);
 
-//Completes the task.
-function CompleteTask() 
-{  
-  var listItem = this.parentNode;
-  var ul = listItem.parentNode;
-  ul.removeChild(listItem);
+  incompletetaskList.appendChild(listItem);
+
+  return listItem;
 }
 
 //Binding functionality to the edit and complete buttons.
@@ -107,13 +107,14 @@ function addTask()
   var td = new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate() + "|" + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds();
   var taskDate = td.toString();
   
-  taskArr.push("{Name:" + taskTitle.value + ", Description:" + taskDetails.value + ", Date:" + taskDate + "}");
+  taskArr.push({Name: taskTitle.value, Description: taskDetails.value, Date: taskDate});
   console.log(taskArr);
 
-  var listItem = createNewTaskElement(taskTitle.value, taskDetails.value, taskDate.value);
+  incompletetaskList.innerHTML = "";
+
+  floop();
 
   //Adding the listed items to the incompleteTaskList.
-  incompletetaskList.appendChild(listItem);
 
   //Calls the BindTaskEvents and passes in the buttons function.
   bindTaskEvents(listItem);
@@ -121,6 +122,21 @@ function addTask()
  //Resets the values of the input field.
   taskTitle.value = "";
   taskDetails.value = "";
+}
+
+//Completes the task.
+function CompleteTask() 
+{  
+  var listItem = this.parentNode;
+  var ul = listItem.parentNode;
+  var tarInd = listItem.querySelector("p");
+
+  taskArr.splice([tarInd.value],1);
+
+  floop(); 
+
+  ul.removeChild(listItem);
+
 }
 
 //Edit the existing text area.
@@ -131,6 +147,7 @@ function editTask()
   var label = listItem.querySelector("label");
   var detailDesc = listItem.querySelector("textArea");
   var editTaskButton = listItem.querySelector("button");
+  var iHold = listItem.querySelector("p");
 
   //Hides and displays the text area for edits.
   if (detailDesc.style.display == "none") {
@@ -138,6 +155,8 @@ function editTask()
   } else {
     detailDesc.style.display = "none";
   }
+
+  document.getElementById("");
 
   //turns the class to editmode.
   var containsClass = listItem.classList.contains("editMode");
@@ -147,6 +166,9 @@ function editTask()
   } else {
     editInput.value = label.innerText;
   }
+
+  //Overwrites the edit input (what the new value is) to the thing in the array.
+  taskArr[iHold.innerText] = {Name: taskArr[iHold.innerText], Description: editInput.value, Date: new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate() + "|" + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds()};
 
   if (detailDesc.style.display == "block") {
     label.style.display = "none";
@@ -172,4 +194,10 @@ function clearAll()
 
 function sortNewOld() {
 
+}
+
+function floop() {
+  for( var i = 0; i < taskArr.length; i++) {
+    listItem = createNewTaskElement(taskArr[i], i);
+  }
 }
