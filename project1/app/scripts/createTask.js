@@ -85,9 +85,6 @@ function createNewTaskElement(arrData, index)
   listItem.appendChild(date);
   listItem.appendChild(separater);
   listItem.appendChild(iHolder);
-
-  incompletetaskList.appendChild(listItem);
-
   return listItem;
 }
 
@@ -110,11 +107,10 @@ function addTask()
   taskArr.push({Name: taskTitle.value, Description: taskDetails.value, Date: taskDate});
   console.log(taskArr);
 
-  incompletetaskList.innerHTML = "";
-
   floop();
 
   //Adding the listed items to the incompleteTaskList.
+  incompletetaskList.appendChild(listItem);
 
   //Calls the BindTaskEvents and passes in the buttons function.
   bindTaskEvents(listItem);
@@ -134,56 +130,55 @@ function CompleteTask()
   taskArr.splice([tarInd.value],1);
 
   floop(); 
-
-  ul.removeChild(listItem);
-
 }
 
 //Edit the existing text area.
 function editTask()
 {
-  var listItem = this.parentNode;//Targets the button that was just clicked for the element.
-  var editInput = listItem.querySelector('textarea');
-  var label = listItem.querySelector("label");
-  var detailDesc = listItem.querySelector("textArea");
-  var editTaskButton = listItem.querySelector("button");
-  var iHold = listItem.querySelector("p");
+  if(taskArr.length > 0)
+  {
+    var listItem = this.parentNode;//Targets the button that was just clicked for the element.
+    var editInput = listItem.querySelector('textarea');
+    var label = listItem.querySelector("label");
+    var detailDesc = listItem.querySelector("textArea");
+    var editTaskButton = listItem.querySelector("button");
+    var iHold = listItem.querySelector("p");
 
-  //Hides and displays the text area for edits.
-  if (detailDesc.style.display == "none") {
-    detailDesc.style.display = "block";
-  } else {
-    detailDesc.style.display = "none";
-  }
+    //Overwrites the edit input (what the new value is) to the thing in the array.
+    //iHold is keeping the value and not changing it until a new button is created.
+    taskArr[iHold.innerText] = {Name: taskArr[iHold.innerText].Name, Description: editInput.value, Date: new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate() + "|" + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds()};
 
-  document.getElementById("");
+    //Hides and displays the text area for edits.
+    if (detailDesc.style.display == "none") {
+      detailDesc.style.display = "block";
+    } else {
+      detailDesc.style.display = "none";
+    }
 
-  //turns the class to editmode.
-  var containsClass = listItem.classList.contains("editMode");
+    //turns the class to editmode.
+    var containsClass = listItem.classList.contains("editMode");
 
-  if(containsClass) {
-    label.innerText = editInput.value;
-  } else {
-    editInput.value = label.innerText;
-  }
+    if(containsClass) {
+      label.innerText = editInput.value;
+    } else {
+      editInput.value = label.innerText;
+    }
 
-  //Overwrites the edit input (what the new value is) to the thing in the array.
-  taskArr[iHold.innerText] = {Name: taskArr[iHold.innerText], Description: editInput.value, Date: new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate() + "|" + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds()};
+    if (detailDesc.style.display == "block") {
+      label.style.display = "none";
+    } else {
+      label.style.display = "block";
+    }
 
-  if (detailDesc.style.display == "block") {
-    label.style.display = "none";
-  } else {
-    label.style.display = "block";
-  }
+    //Changes the edit button to a save button.
+    if (detailDesc.style.display == "none") {
+      editTaskButton.innerHTML = "Edit";
+    } else {
+      editTaskButton.innerHTML = "Save";
+    }
 
-  //Changes the edit button to a save button.
-  if (detailDesc.style.display == "none") {
-    editTaskButton.innerHTML = "Edit";
-  } else {
-    editTaskButton.innerHTML = "Save";
-  }
-
-  listItem.classList.toggle("editMode");
+    listItem.classList.toggle("editMode");
+    }
 }
 
 //Sets the task holder to nothing.
@@ -195,6 +190,7 @@ function clearAll()
 function sortNewOld() {
 
 }
+var listItem;
 
 function floop() {
   for( var i = 0; i < taskArr.length; i++) {
