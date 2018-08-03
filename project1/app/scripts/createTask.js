@@ -8,7 +8,7 @@ var addButton = document.getElementsByTagName("button")[0];
 var incompletetaskList = document.getElementById("incomplete-tasks");
 var listItem; 
 
-//Takes the two inputs and translates them to taskString and detailsInput within this function.
+//This function is being called by the for loop to add all the html elements.
 function createNewTaskElement(arrData, index)
 {
   //Creating the HTML elements for the one task.
@@ -37,9 +37,12 @@ function createNewTaskElement(arrData, index)
   //Adding tags and text and CSS to the elements.
   label.innerText = arrData["Name"];
   labeldesc.innerText = arrData["Description"];
+
   date.innerText = arrData["Date"];
+
   editTextArea.type = "textarea";
   editTextArea.style.resize = "none";
+
   listItem.style.top = "-50px";
 
   iHolder.style.display = "none";
@@ -86,6 +89,7 @@ function createNewTaskElement(arrData, index)
   listItem.appendChild(date);
   listItem.appendChild(separater);
   listItem.appendChild(iHolder);
+
   return listItem;
 }
 
@@ -96,10 +100,11 @@ function bindTaskEvents(taskListItem)
   var completeButton = taskListItem.querySelector("button.complete");
 
   editButton.onclick = editTask;
+
   completeButton.onclick = CompleteTask;
 }
 
-//Completes the task.
+//Function that is being called when the complete button is pressed.
 function CompleteTask() 
 {  
   var listItem = this.parentNode;
@@ -113,46 +118,54 @@ function CompleteTask()
   console.log(taskArr);
 }
 
-//Edit the existing text area.
+//Function that is being called when the edit button is pressed.
 function editTask()
 {
-  var listItem = this.parentNode;//Targets the button that was just clicked for the element.
+  //Introduces the elements of the task to the function.
+  var listItem = this.parentNode;
   var editInput = listItem.querySelector('textarea');
   var label = listItem.querySelector("label");
   var detailDesc = listItem.querySelector("textArea");
   var editTaskButton = listItem.querySelector("button");
   var iHold = listItem.querySelector("p");
 
-  //Overwrites the edit input (what the new value is) to the thing in the array.
-  //for some reason, it cannot read the .Name at the end of the Name tag.
-  taskArr[iHold.innerText] = {Name: taskArr[iHold.innerText].Name, Description: editInput.value, Date: taskArr[iHold.innerText].Date};
+  //Overwrites the edit input (what the new value is) to the item in the array.
+  taskArr[iHold.innerText] = {Name: taskArr[iHold.innerText].Name, Description: editInput.value, Date: taskArr[iHold.innerText].Date, MDate: taskArr[iHold.innerText].MDate};
 
   //Hides and displays the text area for edits.
-  if (detailDesc.style.display == "none") {
+  if (detailDesc.style.display == "none") 
+  {
     detailDesc.style.display = "block";
-  } else {
+  } else 
+  {
     detailDesc.style.display = "none";
   }
 
   //turns the class to editmode.
   var containsClass = listItem.classList.contains("editMode");
 
-  if(containsClass) {
+  if(containsClass) 
+  {
     label.innerText = editInput.value;
-  } else {
+  } else 
+  {
     editInput.value = label.innerText;
   }
 
-  if (detailDesc.style.display == "block") {
+  if (detailDesc.style.display == "block") 
+  {
     label.style.display = "none";
-  } else {
+  } else 
+  {
     label.style.display = "block";
   }
 
   //Changes the edit button to a save button.
-  if (detailDesc.style.display == "none") {
+  if (detailDesc.style.display == "none") 
+  {
     editTaskButton.innerHTML = "Edit";
-  } else {
+  } else 
+  {
     editTaskButton.innerHTML = "Save";
   }
 
@@ -161,23 +174,26 @@ function editTask()
   console.log(taskArr);
 }
 
-//addTask function calls the createTask function above.
+//addTask function pushes the input data to the array and calls the for loop.
 function addTask()
 {
-  //var td = new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate() + "|" + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds();
-  var tdd = new Date();
-  var td = tdd.getTime();
+  var td = new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate() + "|" + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds();
   var taskDate = td.toString();
 
-  taskArr.push({Name: taskTitle.value, Description: taskDetails.value, Date: taskDate});
+  var md = new Date();
+  var mDate = md.getTime();
+
+  //Adding the input values to the array
+  taskArr.push({Name: taskTitle.value, Description: taskDetails.value, Date: taskDate, MDate: mDate});
   console.log(taskArr);
 
+  //calling the for loop to create the elements.
   floop();
 
   //Adding the listed items to the incompleteTaskList.
   incompletetaskList.appendChild(listItem);
 
-  //Calls the BindTaskEvents and passes in the buttons function.
+  //Calls the BindTaskEvents and passes in the buttons' function.
   bindTaskEvents(listItem);
 
  //Resets the values of the input field.
@@ -185,7 +201,7 @@ function addTask()
   taskDetails.value = "";
 }
 
-//Sets the task holder to nothing.
+//Sets the task holder and the array to nothing.
 function clearAll()
 {
   document.getElementById("incomplete-tasks").innerText = "";
@@ -196,42 +212,40 @@ function clearAll()
 //makes the for loop easy to be called by other functions.
 function floop () 
 {
-  for( var i = 0; i < taskArr.length; i++) {
+  for(var i = 0; i < taskArr.length; i++)
+  {
     listItem = createNewTaskElement(taskArr[i], i);
   }
 }
 
+//sorts the functions by newest to oldest.
 function sortNewOld()
 {
+  document.getElementById("incomplete-tasks").innerText = "";
 
+  taskArr.sort(function(a,b) {return b.MDate - a.MDate});
 
-  taskArr.sort(function(a,b) {return b.Date - a.Date});
-
+  for(var i = 0; i < taskArr.length; i++) 
+  {
+    listItem = createNewTaskElement(taskArr[i], i);
+    incompletetaskList.appendChild(listItem);
+    bindTaskEvents(listItem);
+  }
   console.log(taskArr);
 }
 
-function sortOldNew() {
+//sorts the buttons from oldest to newest.
+function sortOldNew() 
+{
+  document.getElementById("incomplete-tasks").innerText = "";
 
-  taskArr.sort(function(a,b) {return a.Date - b.Date});
+  taskArr.sort(function(a,b) {return a.MDate - b.MDate});
 
+  for(var i = 0; i < taskArr.length; i++) 
+  {
+    listItem = createNewTaskElement(taskArr[i], i);
+    incompletetaskList.appendChild(listItem);
+    bindTaskEvents(listItem);
+  }
   console.log(taskArr);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
