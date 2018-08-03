@@ -164,9 +164,11 @@ function editTask()
 //addTask function calls the createTask function above.
 function addTask()
 {
-  var td = new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate() + "|" + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds();
+  //var td = new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate() + "|" + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds();
+  var tdd = new Date();
+  var td = tdd.getTime();
   var taskDate = td.toString();
-  
+
   taskArr.push({Name: taskTitle.value, Description: taskDetails.value, Date: taskDate});
   console.log(taskArr);
 
@@ -201,7 +203,35 @@ function floop ()
 
 function sortNewOld()
 {
+
+
+  taskArr.sort(function(a,b) {return b.Date - a.Date});
+
+  console.log(taskArr);
+}
+
+function sortOldNew() {
+
   taskArr.sort(function(a,b) {return a.Date - b.Date});
 
   console.log(taskArr);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
