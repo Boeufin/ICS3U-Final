@@ -6,6 +6,7 @@ var taskTitle = document.getElementById("new-task");
 var taskDetails = document.getElementById("newDetails");
 var addButton = document.getElementsByTagName("button")[0];
 var incompletetaskList = document.getElementById("incomplete-tasks");
+var listItem; 
 
 //Takes the two inputs and translates them to taskString and detailsInput within this function.
 function createNewTaskElement(arrData, index)
@@ -124,7 +125,7 @@ function editTask()
 
   //Overwrites the edit input (what the new value is) to the thing in the array.
   //for some reason, it cannot read the .Name at the end of the Name tag.
-  taskArr[iHold.innerText] = {Description: editInput.value};
+  taskArr[iHold.innerText] = {Name: taskArr[iHold.innerText].Name, Description: editInput.value, Date: taskArr[iHold.innerText].Date};
 
   //Hides and displays the text area for edits.
   if (detailDesc.style.display == "none") {
@@ -190,13 +191,17 @@ function clearAll()
   console.log(taskArr);
 }
 
-function sortNewOld() {
-
-}
-var listItem;
-
-function floop () {
+//makes the for loop easy to be called by other functions.
+function floop () 
+{
   for( var i = 0; i < taskArr.length; i++) {
     listItem = createNewTaskElement(taskArr[i], i);
   }
+}
+
+function sortNewOld()
+{
+  taskArr.sort(function(a,b) {return a.Date - b.Date});
+
+  console.log(taskArr);
 }
