@@ -84,22 +84,22 @@
   </head>
   <body>
     <center>
-            <div class="container">
+      <div class="container">
         <p>
           <h3 for="new-task">Add a Task</h3>
-          <input id="new-task" class="input" type="text" placeholder="Enter Task"><br><br>
+          <input id="new-task" class="input" type="text" placeholder="Enter Task" maxlength="25"><br><br>
           <textarea class="newDetails" id="newDetails" placeholder="Details" cols="30" rows="4"></textarea><br>
           <button id="clearButton" onclick=clearAll()>Clear Tasks</button> <button id="create" onclick=addTask()>Create</button>
         </p>
         <hr id="breaker"/>
         <h3 id="toDo">Tasks To Do</h3>
         <hr id="breaker"/>
-        <button id="newold">New-Old</button>
-        <button id="oldnew">Old-New</button>
+        <button id="newold"onclick=sortNewOld()>New-Old</button>
+        <button id="oldnew"onclick=sortOldNew()>Old-New</button>
         <ul id="incomplete-tasks">
         </ul>
       </div>
   </center>
-    <script type="text/javascript" src="scripts\createTask.js"></script>
+    <script type="text/javascript" src="createTaskW.js"></script>
   </body>
 </html>

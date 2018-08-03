@@ -57,12 +57,12 @@ function createNewTaskElement(arrData, index)
 
   //Edit Button CSS
   editButton.style.position = "relative";
-  editButton.style.left = "225px";
+  editButton.style.left = "285px";
   editButton.style.top = "-5px";
 
   //Complete Button CSS
   completeButton.style.position = "relative";
-  completeButton.style.left = "140px";
+  completeButton.style.left = "200px";
   completeButton.style.top = "45px";
 
   //Details positioning
@@ -177,7 +177,10 @@ function editTask()
 //addTask function pushes the input data to the array and calls the for loop.
 function addTask()
 {
-  var td = new Date().getFullYear() + "-" + new Date().getMonth() + "-" + new Date().getDate() + "|" + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds();
+  //The month scales from 0-11 so we need to add one.
+  var tempMonth = new Date().getMonth() + 1;
+
+  var td = new Date().getFullYear() + "-" + tempMonth + "-" + new Date().getDate() + "|" + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds();
   var taskDate = td.toString();
 
   var md = new Date();
@@ -243,6 +246,7 @@ function sortOldNew()
 
   for(var i = 0; i < taskArr.length; i++) 
   {
+    //once the task list is cleared, we need to rebind the elements.
     listItem = createNewTaskElement(taskArr[i], i);
     incompletetaskList.appendChild(listItem);
     bindTaskEvents(listItem);
