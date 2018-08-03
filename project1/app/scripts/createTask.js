@@ -109,7 +109,7 @@ function CompleteTask()
 
   taskArr.splice([tarInd.value],1);
 
-  floop(); 
+  console.log(taskArr);
 }
 
 //Edit the existing text area.
@@ -156,6 +156,8 @@ function editTask()
   }
 
   listItem.classList.toggle("editMode");
+
+  console.log(taskArr);
 }
 
 //addTask function calls the createTask function above.
@@ -184,6 +186,8 @@ function addTask()
 function clearAll()
 {
   document.getElementById("incomplete-tasks").innerText = "";
+  taskArr = [];
+  console.log(taskArr);
 }
 
 function sortNewOld() {
